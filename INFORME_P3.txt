@@ -1,0 +1,312 @@
+Tercera práctica de algoritmos. Montículos.
+A 9 de noviembre de 2023
+
+Autores de la práctica:
+- Levi Barros García
+- Raúl Meijide Couto 
+- Ángel Villamor Martínez
+
+
+- Introducción:
+
+En esta práctica vamos a realizar el estudio de la complejidad computacional del algoritmo de ordenación por montículos y de la creación de los montículos aplicandolo a vectores de 
+números enteros.
+
+A partir de una representación de monticulos de mínimos, hemos implementado siempre en lenguaje C, las operaciones necesarias para manipular los monticulos, es decir las operaciones de inicializar montículo, crear montículo, insertar elemento en el montículo que usa el procedimiento de "flotar" y eliminar el menor elemento del montículo que usa el procedimiento de "hundir". A continuación, hemos verificado que todas las operaciones que hemos realizado funcionaran de manera correcta mediante la realización de una serie de tests.
+
+El objetivo de esta práctica es doble, por una parte tenemos que demostrar empíriciamente que insertar los "n" nodos a un montículo que inicialmente está vacío se ejecuta en un tiempo de O(nlogn), mientras que la creación de un montículo a partir de un vector con "n" elementos se ejecutará en un tiempo de O(n). Por otra parte, tenemos que calcular empíricamente la complejidad computacional del algoritmo de ordenación sobre tres tipos diferentes de vectores: ordenados de manera ascendente, ordenados descendentemente y ordenados de manera aleatoria.
+
+Los tiempos de ejecución los hemos medido en microsegundos. En el caso de los tiempos menores de 500 microsegundos, hemos aplicado el habitual método de medición que aplicamos para los tiempos pequeños, que consistente en tomar el tiempo medio de 100 mediciones.
+
+
+
+
+- Máquina de medición:
+
+- Sistema Operativo: Linux 5.15.0-84-generic
+- Procesador: Intel(r) Core(tm) i5-8300H CPU @ 2.30GHz × 8
+- Memoria Ram: 8 GB DDR4
+- Tarjeta Gráfica: NVIDIA Corporation GP107M [GeForce GTX 1050 Mobile]
+- Arquitectura Hardware: x86_64
+- Kernel: #93~20.04.1-Ubuntu SMP 
+
+
+
+
+
+
+Tabla de tiempos en microsegundos obtenida para la demostracion de la creacion de montículos con ordenacion aleatoria:
+Índice:
+- n: el tamaño de los vectores
+- t(n): son los tiempos   
+- n ^ 0.8: es la cota subestimada
+- n^1: es la cota ajustada 
+- n ^ 1.2: es la cota sobrestimada
+- *: Indica que el tiempo de ejecución del vector fue menor que 500 ms y se hizo la media de los tiempos de ese vector ejecutado 100 veces.
+- #: Mediciones anómalas
+
+Tiempos de ejecución para vectores aleatorios normales
+
+Ordenacion aleatoria
+	       n			  t(n)		          t(n) / n^0.8		   t(n) / n^1	          t(n) / n^1.2
+(*)	     500		         13.820		    0.09579262		    0.02764000		    0.00797525
+(*)	    1000		         27.380		    0.10900174		    0.02738000		    0.00687755
+(*)	    2000		         53.700		    0.12278641		    0.02685000		    0.00587135
+(*)	    4000		        105.870		    0.13903525		    0.02646750		    0.00503850
+(*)	    8000		        210.520		    0.15878935		    0.02631500		    0.00436099
+(*)	   16000		        425.710		    0.18442418		    0.02660687		    0.00383857
+	   32000		        853.000		    0.21224089		    0.02665625		    0.00334787
+	   64000		       1773.000		    0.25337558		    0.02770312		    0.00302895
+	  128000		       3540.000		    0.29055964		    0.02765625		    0.00263240
+	  256000		       7111.000		    0.33522678		    0.02777734		    0.00230167
+	  
+Cte aproximada a 0.027.
+
+
+
+* Tabla número uno: Realización del estudio de la complejidad de CrearMonticulos con vectores aleatorios.
+
+- Discusión: No se han detectado anomalías en los cálculos de la complejidad. Se puede observar una ligera variación en la cota ajustada, aún así no hay nada anómalo ya que están en el rango de la media. Se observa que la cota subestimada es creciente y la sobreestimada descreciente.
+
+Por otro lado, la cota ajustada tiende a la constante 0.027 lo que demuestra que su complejidad se va aproximando a O(n).
+
+
+
+
+
+
+Tabla de tiempos en microsegundos obtenida para la demostracion de la creacion de montículos con ordenacion ascendente:
+Índice:
+- n: el tamaño de los vectores
+- t(n): son los tiempos   
+- n ^ 0.8: es la cota subestimada
+- n^1: es la cota ajustada
+- n ^ 1.2: es la cota sobrestimada
+- *: Indica que el tiempo de ejecución del vector fue menor que 500 ms y se hizo la media de los tiempos de ese vector ejecutado 100 veces.
+- #: Mediciones anómalas
+
+Tiempos de ejecución para vectores aleatorios ascendentes
+
+Ordenacion ascendente
+	       n			  t(n)		          t(n) / n^0.8		   t(n) / n^1	          t(n) / n^1.2
+(*)	     500		          3.910		    0.02710196		    0.00782000		    0.00225638
+(*)	    1000		          7.660		    0.03049501		    0.00766000		    0.00192411
+(*)	    2000		         15.270		    0.03491524		    0.00763500		    0.00166956
+(*)	    4000		         30.650		    0.04025154		    0.00766250		    0.00145867
+(*)	    8000		         61.930		    0.04671207		    0.00774125		    0.00128290
+(*)	   16000		        123.970		    0.05370573		    0.00774812		    0.00111782
+(*)	   32000		        247.960		    0.06169666		    0.00774875		    0.00097320
+(#)	   64000		        562.000		    0.08031420		    0.00878125		    0.00096011
+(#)	  128000		       1131.000		    0.09283134		    0.00883594		    0.00084103
+(#)	  256000		       2268.000		    0.10691806		    0.00885937		    0.00073410
+
+
+Cte aproximada 0.0077, con 3 mediciones anómalas en los vectores de tamaño 64000, 128000 y 256000, que tienen una cte aproximada 0.0088.
+
+
+ 
+* Tabla número dos:  Realización del estudio de la complejidad de CrearMonticulos con vectores ascendentes.
+
+- Discusión: Hemos detectado 3 mediciones anómalas en los vectores de tamaño 64000, 128000 y 256000, que tienen una cte aproximada 0.0088. Se observa que la cota subestimada es creciente y la sobreestimada descreciente.
+
+Por otro lado, la cota ajustada tiende a la constante 0.0077 lo que demuestra que su complejidad se va aproximando a O(n).
+
+
+
+
+
+Tabla de tiempos en microsegundos obtenida para la demostracion de la creacion de montículos con ordenacion descendente:
+Índice:
+- n: el tamaño de los vectores
+- t(n): son los tiempos   
+- n ^ 0.8: es la cota subestimada
+- n^1: es la cota ajustada
+- n ^ 1.2: es la cota sobrestimada
+- *: Indica que el tiempo de ejecución del vector fue menor que 500 ms y se hizo la media de los tiempos de ese vector ejecutado 100 veces.
+- #: Mediciones anómalas
+
+Tiempos de ejecución para vectores aleatorios descendentes
+
+Ordenacion descendente
+	       n			  t(n)		          t(n) / n^0.8		   t(n) / n^1	          t(n) / n^1.2
+(*)	     500		          8.890		    0.06162058		    0.01778000		    0.00513024
+(*)	    1000		         17.690		    0.07042516		    0.01769000		    0.00444353
+(*)	    2000		         35.200		    0.08048569		    0.01760000		    0.00384863
+(*)	    4000		         70.650		    0.09278209		    0.01766250		    0.00336233
+(*)	    8000		        142.150		    0.10721977		    0.01776875		    0.00294469
+(*)	   16000		        286.590		    0.12415524		    0.01791187		    0.00258415
+	   32000		        577.000		    0.14356740		    0.01803125		    0.00226462
+(#)	   64000		       1232.000		    0.17606244		    0.01925000		    0.00210472
+(#)	  128000		       2481.000		    0.20363798		    0.01938281		    0.00184491
+(#)	  256000		       4984.000		    0.23495574		    0.01946875		    0.00161321
+
+Cte aproximada a 0.0178, con 3 mediciones anómalas en los vectores de tamaño 64000, 128000 y 256000, que tiene una cte aproximada 0.0193.
+
+
+* Tabla número tres:  Realización del estudio de la complejidad de CrearMonticulos con vectores descendentes.
+
+- Discusión: Hemos detectado 3 mediciones anómalas en los vectores de tamaño 64000, 128000 y 256000, que tienen una cte aproximada 0.0193. Se observa que la cota subestimada es creciente y la sobreestimada descreciente.
+
+Por otro lado, la cota ajustada tiende a la constante 0.0178 lo que demuestra que su complejidad se va aproximando a O(n). 
+
+
+
+
+
+
+- Conclusión: Podemos observar que la complejidad de crear montículo es O(n) para los 3 casos dados. 
+
+La complejidad temporal de la función CrearMonticulo es O(n), donde 'n' es el número de elementos en el arreglo de entrada. A continuación, se explican las razones:
+
+Inicialización del Montículo: La función comienza llamando a InicializarMonticulo(M), que inicializa la estructura de montículo M. La inicialización de un montículo tiene una complejidad constante, O(1).
+
+Copia de elementos: Luego, la función realiza un bucle para copiar los elementos del arreglo de entrada (v[]) al vector del montículo (M->vector). Este bucle itera 'n' veces, donde 'n' es el número de elementos. Cada operación de copia es una operación de tiempo constante, por lo que la complejidad total de la copia es O(n).
+
+Hundir: Después de copiar los elementos, la función aplica la operación Hundir a los nodos desde n/2 hasta 1. La operación Hundir se ejecuta en tiempo logarítmico con respecto al número de nodos que tiene que hundir en el peor caso, ya que en cada iteración, al menos un nodo se mueve hacia su posición correcta en el montículo. Dado que el bucle de hundir se ejecuta para aproximadamente n/2 nodos, la complejidad total de esta operación es O(n/2 * log n), pero en notación de O-grande, esto se reduce a O(n * log n).
+
+En resumen, la parte dominante en términos de complejidad temporal es el bucle de copia, que es lineal (O(n)). Por lo tanto, la complejidad total de la función CrearMonticulo es O(n)
+
+
+
+
+
+
+Análisis de la complejidad de HeapSort
+
+
+Tabla de tiempos en microsegundos obtenida para Heapsort con ordenacion aleatoria:
+Índice:
+- n: el tamaño de los vectores
+- t(n): son los tiempos   
+- n ^ 0.85: es la cota subestimada
+- n^1*log2(n): es la cota ajustada 
+- n ^ 1.33: es la cota sobrestimada
+- *: Indica que el tiempo de ejecución del vector fue menor que 500 ms y se hizo la media de los tiempos de ese vector ejecutado 100 veces.
+- #: Mediciones anómalas
+
+
+Ordenacion aleatoria
+	       n			  t(n)		          t(n) / n^0.85	 t(n) / n^1*log2(n)	    t(n) / n^1.33
+(*)	     500		         83.060		    0.42195625		    0.01852822		    0.02136790
+(*)	    1000		        181.550		    0.51167742		    0.01821733		    0.01857788
+(*)	    2000		        399.950		    0.62536015		    0.01823627		    0.01627930
+	    4000		        858.000		    0.74427991		    0.01792611		    0.01389145
+	    8000		       1844.000		    0.88743066		    0.01777756		    0.01187548
+	   16000		       4020.000		    1.07330726		    0.01799040		    0.01029785
+	   32000		       9362.000		    1.38672759		    0.01954876		    0.00953936
+	   64000		      18963.000		    1.55831075		    0.01855824		    0.00768578
+	  128000		      40834.000		    1.86163035		    0.01880347		    0.00658313
+	  256000		      88096.000		    2.22818999		    0.01915447		    0.00564933
+
+Cte aproximada a 0.018
+
+
+* Tabla número uno: Realización del estudio de la complejidad de Heapsort con vectores aleatorios.
+
+- Discusión: No se han detectado anomalías en los cálculos de la complejidad. Se puede observar una ligera variación en la cota ajustada, aún así no hay nada anómalo ya que están en el rango de la media. Se observa que la cota subestimada es creciente y la sobreestimada descreciente.
+
+Por otro lado, la cota ajustada tiende a la constante 0.0018 lo que demuestra que su complejidad se va aproximando a O(nlog2n).
+
+
+
+
+
+Tabla de tiempos en microsegundos obtenida para Heapsort con ordenacion ascendente:
+Índice:
+- n: el tamaño de los vectores
+- t(n): son los tiempos   
+- n ^ 0.85: es la cota subestimada
+- n^1*log2(n): es la cota ajustada 
+- n ^ 1.33: es la cota sobrestimada
+- *: Indica que el tiempo de ejecución del vector fue menor que 500 ms y se hizo la media de los tiempos de ese vector ejecutado 100 veces.
+- #: Mediciones anómalas
+
+
+Ordenacion ascendente
+	       n			  t(n)		         t(n) / n^0.85	        t(n) / n^1*log2(n)         t(n) / n^1.33
+(*)	     500		         57.250		    0.29083789		    0.01277077		    0.01472805
+(*)	    1000		        134.890		    0.38017167		    0.01353531		    0.01380320
+(*)	    2000		        309.550		    0.48401109		    0.01411436		    0.01259972
+	    4000		        687.000		    0.59594440		    0.01435343		    0.01112287
+	    8000		       1464.000		    0.70455449		    0.01411407		    0.00942826
+	   16000		       3086.000		    0.82393687		    0.01381054		    0.00790526
+	   32000		       6633.000		    0.98249990		    0.01385034		    0.00675866
+	   64000		      13876.000		    1.14027949		    0.01357982		    0.00562399
+	  128000		      29101.000		    1.32672050		    0.01340059		    0.00469157
+	  256000		      60873.000		    1.53964549		    0.01323545		    0.00390360
+
+Cte aproximada a 0.013
+
+
+* Tabla número dos: Realización del estudio de la complejidad de Heapsort con vectores ascendentes.
+
+- Discusión: No se han detectado anomalías en los cálculos de la complejidad. Se puede observar una ligera variación en la cota ajustada, aún así no hay nada anómalo ya que están en el rango de la media. Se observa que la cota subestimada es creciente y la sobreestimada descreciente.
+
+Por otro lado, la cota ajustada tiende a la constante 0.013 lo que demuestra que su complejidad se va aproximando a O(nlog2n).
+
+
+
+
+Tabla de tiempos en microsegundos obtenida para Heapsort con ordenacion descendente:
+Índice:
+- n: el tamaño de los vectores
+- t(n): son los tiempos   
+- n ^ 0.85: es la cota subestimada
+- n^1*log2(n): es la cota ajustada 
+- n ^ 1.33: es la cota sobrestimada
+- *: Indica que el tiempo de ejecución del vector fue menor que 500 ms y se hizo la media de los tiempos de ese vector ejecutado 100 veces.
+- #: Mediciones anómalas
+
+
+Ordenacion descendente
+	       n			  t(n)		          t(n) / n^0.85	  t(n) / n^1*log2(n)	    t(n) / n^1.33
+(*)	     500		         63.040		    0.32025189		    0.01406235		    0.01621758
+(*)	    1000		        155.440		    0.43808944		    0.01559737		    0.01590607
+(*)	    2000		        337.940		    0.52840157		    0.01540884		    0.01375529
+	    4000		        717.000		    0.62196817		    0.01498021		    0.01160859
+	    8000		       1494.000		    0.71899208		    0.01440329		    0.00962146
+	   16000		       3183.000		    0.84983508		    0.01424464		    0.00815374
+	   32000		       6718.000		    0.99509036		    0.01402783		    0.00684527
+	   64000		      14187.000		    1.16583635		    0.01388418		    0.00575004
+	  128000		      30647.000		    1.39720295		    0.01411250		    0.00494082
+	  256000		      64124.000		    1.62187222		    0.01394230		    0.00411208
+
+Cte aproximada a 0.014
+
+
+* Tabla número tres: Realización del estudio de la complejidad de Heapsort con vectores descendentes.
+
+- Discusión: No se han detectado anomalías en los cálculos de la complejidad. Se puede observar una ligera variación en la cota ajustada, aún así no hay nada anómalo ya que están en el rango de la media. Se observa que la cota subestimada es creciente y la sobreestimada descreciente.
+
+Por otro lado, la cota ajustada tiende a la constante 0.014 lo que demuestra que su complejidad se va aproximando a O(nlog2n).
+
+
+
+
+
+- Conclusion: como podemos observar, tanto la ordenación de el vector ordenado ascendentemente como la ordenación de el vector ordenado descedentemente tienen tiempos de ejucución similares aunque el mas rápido a la hora de ordenar de los dos sea el ascendente. Pero por otra parte, la diferencia en los tiempos de ejecución es más salientable en la ordenación de el vector ordenado aleatoriamente ya que su diferencia de tiempos de ejecución con respecto a los otros dos métodos es más notable.
+
+Cabe destacar el hecho de que, tanto para la ordenación aleatoria como para la ordenación ascendente como para la ordenación descendente su complejidad computacional no varía siendo en los tres casos de O(nlogn), como se observa en la cota ajustada de las 3 tablas, lo que nos demuestra que la complejidad O(nlogn) se matiene independientemente al vector a ordenar.
+
+Según el Teorema de los monticulos: La ordenación por montículos es O(nlogn)
+Demostración:
+Crear Montículo es O(n), y n Eliminar es O(nlogn).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
